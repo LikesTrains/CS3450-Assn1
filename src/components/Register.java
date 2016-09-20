@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 public class Register extends JFrame implements ActionListener {
@@ -16,6 +17,7 @@ public class Register extends JFrame implements ActionListener {
 	private JButton Checkout, BackOffice;
 	private JPanel ButtonContainer;
 	private User admin;
+	private static final long serialVersionUID = 1L;
 	
 	Register(){
 		this.setTitle("Register");
@@ -51,7 +53,8 @@ public class Register extends JFrame implements ActionListener {
 	
 	void deployLogin(){
 		JTextField IDField = new JTextField(5);
-	    JTextField PassField = new JTextField(5);
+	    JPasswordField PassField = new JPasswordField(5);
+	    
 
 	    JPanel myPanel = new JPanel();
 	    myPanel.add(new JLabel("ID:"));
@@ -67,7 +70,7 @@ public class Register extends JFrame implements ActionListener {
 	    else if(IDField.getText().equals("")){
 	    	JOptionPane.showMessageDialog(null, "Please input an ID.", "Error",JOptionPane.ERROR_MESSAGE);
 	    }
-	    else if(PassField.getText().equals("")){
+	    else if(PassField.getPassword().length==0){
 	    	JOptionPane.showMessageDialog(null, "Please input a Passsword.", "Error",JOptionPane.ERROR_MESSAGE);
 	    }
 	    else{
@@ -78,12 +81,16 @@ public class Register extends JFrame implements ActionListener {
 		    	JOptionPane.showMessageDialog(null, "User ID invalid, please use numbers.", "Error",JOptionPane.ERROR_MESSAGE);
 		    }
 		    try {
-		    	password = Integer.parseInt(PassField.getText());
+		    	String passInput = new String(PassField.getPassword());
+		    	password = Integer.parseInt(passInput);
 		    }
 		    catch(NumberFormatException e){
 		    	JOptionPane.showMessageDialog(null, "Password invalid, please use numbers.", "Error",JOptionPane.ERROR_MESSAGE);
 		    }
-		    if (ID==admin.getID()&&password==admin.getPassword()){
+		    if (ID!=admin.getID()||password!=admin.getPassword()){
+		    	JOptionPane.showMessageDialog(null, "Username/password combination invalid.");
+		    }
+		    else {
 		    	JOptionPane.showMessageDialog(null, "This is the register");
 		    }
 		    
