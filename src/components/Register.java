@@ -108,7 +108,7 @@ public class Register extends JFrame implements ActionListener {
 			return;
 		}
 		
-			System.out.println("Yeah");
+		System.out.println("Yeah");
 	}
 	
 	@Override
