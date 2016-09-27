@@ -16,7 +16,7 @@ public class Register extends JFrame implements ActionListener {
 	private Container pane;
 	private JButton Checkout, BackOffice;
 	private JPanel ButtonContainer;
-	private User admin;
+	private User admin, currentUser = new User (0,"","",-1,0);
 	private static final long serialVersionUID = 1L;
 	
 	Register(){
@@ -87,15 +87,14 @@ public class Register extends JFrame implements ActionListener {
 		    catch(NumberFormatException e){
 		    	JOptionPane.showMessageDialog(null, "Password invalid, please use numbers.", "Error",JOptionPane.ERROR_MESSAGE);
 		    }
-		    if (ID!=admin.getID()||password!=admin.getPassword()){
+		    if (searchUser(ID, password).getID()==-1){
 		    	JOptionPane.showMessageDialog(null, "Username/password combination invalid.");
 		    }
+		    //User is valid
 		    else {
-		    	JOptionPane.showMessageDialog(null, "This is the register");
-		    }
-		    
-		    
-		    
+		    currentUser = searchUser(ID, password);
+		    JOptionPane.showMessageDialog(null, "Login Successful.");
+		    }		    
 	    }
 	    //if (Integer.parseInt(xField.getText())==0){
 	    	
@@ -104,15 +103,34 @@ public class Register extends JFrame implements ActionListener {
 		//String inputValue = JOptionPane.showInputDialog("Input your used ID");
 	}
 	
+	void displayReigster(){
+		if (currentUser.getID()==-1) {
+			return;
+		}
+		
+			System.out.println("Yeah");
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource()==Checkout){
 			deployLogin();
+			displayReigster();
 		}
 		
 		if (e.getSource()==BackOffice){
 			deployLogin();
 		}
 	}
+	/**
+	 * If user is not found a dummy user with an ID of -1 will be returned
+	 * @return User object that matches ID and password from the database.
+	 */
+	User searchUser(int ID, int password){
+		if (admin.getID()==ID&&admin.getPassword()==password){
+			return admin;
+		}
+		return new User(1,"Yo","Dawg",-1,47);
+	};
 }
