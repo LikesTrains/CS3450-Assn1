@@ -14,6 +14,24 @@ public class User {
 		this.setPassword(password);
 	}
 	
+	public void reset(){
+		this.setLevel(0);
+		this.setFName("");
+		this.setLName("");
+		this.setID(-1);
+		this.setPassword(0);
+		return;
+	}
+	
+	public void clone(User cloner){
+		this.setLevel(cloner.getLevel());
+		this.setFName(cloner.getFName()); 
+		this.setLName(cloner.getLName());
+		this.setID(cloner.getID()); 
+		this.setPassword(cloner.getPassword());
+		return;
+	}
+	
 	public int getLevel() {
 		return level;
 	}
