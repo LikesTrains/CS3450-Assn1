@@ -123,20 +123,22 @@ public class Register extends JFrame implements ActionListener{
 			registerGUI.setPreferredSize(new Dimension(250,300));
 			
 			//Mid Level, split input outputs into two sections.
-			JPanel outputWindow = new JPanel(new FlowLayout());
-			
 			JPanel inputWindow = new JPanel(new FlowLayout());
 			inputWindow.setPreferredSize(new Dimension(250,100));
+			
+			JPanel outputWindow = new JPanel(new FlowLayout());
 			
 			//Elements of the output window
 			JTextArea itemWindow = new JTextArea();
 			itemWindow.setPreferredSize(new Dimension(105,420));
 			itemWindow.setEditable(false);
 			itemWindow.append("Part Number\n------------------------------\n");
+			
 			JTextArea quantityWindow = new JTextArea();
 			quantityWindow.setPreferredSize(new Dimension(50,420));
 			quantityWindow.setEditable(false);
 			quantityWindow.append("Quantity\n--------------\n");
+			
 			JTextArea totalWindow = new JTextArea();
 			totalWindow.setPreferredSize(new Dimension(50,420));
 			totalWindow.setEditable(false);
@@ -172,8 +174,6 @@ public class Register extends JFrame implements ActionListener{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					Dimension dim = itemWindow.getSize();
-					int dimx = (int) dim.getWidth();
 					itemWindow.append(itemField.getText() + "\n");
 					quantityWindow.append("x "+ quantityField.getText() + "\n");
 					totalWindow.append("$0.00\n");
