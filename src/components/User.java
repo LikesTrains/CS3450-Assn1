@@ -6,7 +6,15 @@ public class User {
 	private int ID;
 	private int password;
 	
-	User(int level, String FName, String LName, int ID, int password){
+
+	/**
+	 * @param ID
+	 * @param FName
+	 * @param LName
+	 * @param level
+	 * @param password
+	 */
+	User(int ID, String FName, String LName, int level, int password){
 		this.setLevel(level);
 		this.setFName(FName);
 		this.setLName(LName);
@@ -30,6 +38,10 @@ public class User {
 		this.setID(cloner.getID()); 
 		this.setPassword(cloner.getPassword());
 		return;
+	}
+	
+	public void printUser(){
+		System.out.println(this.ID+". "+this.FName+" "+this.LName+". Level: "+this.level+", Password: "+this.password+".");
 	}
 	
 	public int getLevel() {

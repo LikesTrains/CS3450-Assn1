@@ -1,0 +1,7 @@
+items
+1 Relish 3.5 40
+2 Uranium 495.95 110
+3 Eggs 2.0 200
+4 Orange 4.2 50
+5 Bread 2.5 200
+6 Pumpkin 31.1 100
