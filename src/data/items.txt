@@ -1,8 +1,8 @@
 items
-1 Relish 3.5 36
-2 Uranium 495.95 107
-3 Eggs 2.0 196
-4 Orange 4.2 50
-5 Bread 2.5 200
-6 Pumpkin 31.1 90
-7 Condoms 900.55 959
+1,Relish,3.5,25
+2,Uranium,495.95,101
+3,Eggs,2.0,196
+4,Orange,4.2,48
+5,Bread,2.5,200
+6,Pumpkin,31.1,90
+7,Condoms,900.55,959
