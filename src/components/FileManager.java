@@ -2,6 +2,7 @@ package components;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Date;
 import java.util.Vector;
 
 import javax.swing.JOptionPane;
@@ -9,12 +10,14 @@ import javax.swing.JOptionPane;
 public class FileManager {
 	static Vector <Item> items;
 	static Vector <User> users;
+	static Vector <Order> orders;
 	static void loadItems(String fileName){
 		try {
 	        FileInputStream fStream = new FileInputStream(fileName);
 	        BufferedReader in = new BufferedReader(new InputStreamReader(fStream));
 	        if (in.ready()){
 	        	String firstLineCheck = in.readLine();
+	        	firstLineCheck = firstLineCheck.replace(",",  "");
 	        	if (!firstLineCheck.equals("items")){
 	        		in.close();
 	        		JOptionPane.showMessageDialog(null, ("File "+ fileName +" is not an item database."));
@@ -25,7 +28,7 @@ public class FileManager {
 	        String input;
 	        while (in.ready()) {
 				input = in.readLine();
-				String[] split = input.split("\\s+");
+				String[] split = input.split(",");
 				Item bob = new Item(Integer.parseInt(split[0]),split[1],Double.parseDouble(split[2]),Integer.parseInt(split[3]));
 				items.add(bob);
 	        }
@@ -43,6 +46,7 @@ public class FileManager {
 	        BufferedReader in = new BufferedReader(new InputStreamReader(fStream));
 	        if (in.ready()){
 	        	String firstLineCheck = in.readLine();
+	        	firstLineCheck = firstLineCheck.replace(",", "");
 	        	if (!firstLineCheck.equals("users")){
 	        		in.close();
 	        		JOptionPane.showMessageDialog(null, ("File "+ fileName +" is not an user database."));
@@ -53,7 +57,7 @@ public class FileManager {
 	        String input;
 	        while (in.ready()) {
 				input = in.readLine();
-				String[] split = input.split("\\s+");
+				String[] split = input.split(",");
 				User newUser = new User(Integer.parseInt(split[0]),split[1],split[2],Integer.parseInt(split[3]),Integer.parseInt(split[4]));
 				users.addElement(newUser);
 	        }
@@ -65,6 +69,45 @@ public class FileManager {
 			JOptionPane.showMessageDialog(null, ("File formatted improperly"));
 		}
 	}
+	
+	static void loadOrders(String fileName){
+		try {
+	        FileInputStream fStream = new FileInputStream(fileName);
+	        BufferedReader in = new BufferedReader(new InputStreamReader(fStream));
+	        if (in.ready()){
+	        	String firstLineCheck = in.readLine();
+	        	firstLineCheck = firstLineCheck.replace(",", "");
+	        	if (!firstLineCheck.equals("orders")){
+	        		in.close();
+	        		JOptionPane.showMessageDialog(null, ("File "+ fileName +" is not an orders database."));
+	        		return;
+	        	}
+	        	
+	        }
+	        orders = new Vector <Order>();
+	        String input;
+	        while (in.ready()) {
+				input = in.readLine();
+				String[] split = input.split(",");
+				String[] formatDate = split[2].split(" ");
+				Date orderDate = new Date(Integer.parseInt(formatDate[0]),Integer.parseInt(formatDate[1]),Integer.parseInt(formatDate[2]));
+				Vector <OrderedItem> ordered = new Vector <OrderedItem>();
+				for (int i = 3; i<split.length;i++){
+					String[] orderSplit = split[i].split(" ");
+					ordered.addElement(new OrderedItem(Integer.parseInt(orderSplit[0]),Integer.parseInt(orderSplit[1])));					
+				}
+				Order bob = new Order(Integer.parseInt(split[0]),Integer.parseInt(split[1]),orderDate,ordered);
+				orders.addElement(bob);
+	        }
+	        in.close();
+	    } catch (IOException e) {
+	    	JOptionPane.showMessageDialog(null, ("File input error"));
+	    }
+		catch(NumberFormatException e){
+			JOptionPane.showMessageDialog(null, ("File formatted improperly"));
+		}
+	}
+	
 	static void printItems(){
 		for(int i=0;i<items.size();i++){
 			items.get(i).printItem();
@@ -311,8 +354,8 @@ public class FileManager {
 			PrintWriter itemsDBWriter = new PrintWriter(fileName);
 			itemsDBWriter.println("items");
 			for (int i=0;i<items.size();i++){
-				itemsDBWriter.println(items.elementAt(i).getID() + " "+items.elementAt(i).getName()
-						+ " " + items.elementAt(i).getPrice()+" "+items.elementAt(i).getStock());
+				itemsDBWriter.println(items.elementAt(i).getID() + ","+items.elementAt(i).getName()
+						+ "," + items.elementAt(i).getPrice()+","+items.elementAt(i).getStock());
 			}
 			itemsDBWriter.close();
 		} catch (FileNotFoundException e) {
@@ -325,12 +368,24 @@ public class FileManager {
 			PrintWriter itemsDBWriter = new PrintWriter(fileName);
 			itemsDBWriter.println("users");
 			for (int i=0;i<users.size();i++){
-				itemsDBWriter.println(users.elementAt(i).getID() + " "+users.elementAt(i).getFName()
-						+ " " + users.elementAt(i).getLName()+" "+users.elementAt(i).getLevel()+" "+users.elementAt(i).getPassword());
+				itemsDBWriter.println(users.elementAt(i).getID() + ","+users.elementAt(i).getFName() + "," + users.elementAt(i).getLName()+","+users.elementAt(i).getLevel()+","+users.elementAt(i).getPassword());
 			}
 			itemsDBWriter.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+		  }
+	}
+	
+	static void writeOrdersDB(String fileName){
+		try {			
+			PrintWriter ordersDBWriter = new PrintWriter(fileName);
+			ordersDBWriter.println("orders");
+			for (int i=0;i<orders.size();i++){
+				ordersDBWriter.println(orders.elementAt(i).getID()+","+orders.elementAt(i).getCashier()+","+orders.elementAt(i).getDate()+","+orders.elementAt(i).getItems());
+			}
+			ordersDBWriter.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		}
-	}	
+	}
 }
